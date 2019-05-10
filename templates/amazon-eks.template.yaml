@@ -148,6 +148,14 @@ Parameters:
     Type: "AWS::EC2::Subnet::Id"
   PrivateSubnet3ID:
     Type: "AWS::EC2::Subnet::Id"
+  EndpointPublicAccess:
+    Type: String
+    Default: "true"
+    AllowedValues: [ "true", "false" ]
+  EndpointPrivateAccess:
+    Type: String
+    Default: "false"
+    AllowedValues: [ "true", "false" ]
   KubernetesVersion:
     Type: String
     AllowedValues: [ "1.12", "1.11", "1.10" ]
@@ -346,6 +354,8 @@ Resources:
       CfnParameters:
         SecurityGroupIds: !Ref ControlPlaneSecurityGroup
         SubnetIds: !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID, !Ref PublicSubnet1ID, !Ref PublicSubnet2ID, !Ref PublicSubnet3ID ]]
+        EndpointPublicAccess: !Ref EndpointPublicAccess
+        EndpointPrivateAccess: !Ref EndpointPrivateAccess
         RoleArn: !GetAtt IamStack.Outputs.ControlPlaneRoleArn
         NodeInstanceRoleArn: !GetAtt IamStack.Outputs.NodeInstanceRoleArn
         KubeManifestLambdaArn: !GetAtt FunctionStack.Outputs.KubeManifestLambdaArn

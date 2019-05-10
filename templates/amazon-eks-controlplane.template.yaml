@@ -5,6 +5,14 @@ Parameters:
     Type: List<AWS::EC2::SecurityGroup::Id>
   SubnetIds:
     Type: List<AWS::EC2::Subnet::Id>
+  EndpointPublicAccess:
+    Type: String
+    Default: "true"
+    AllowedValues: [ "true", "false" ]
+  EndpointPrivateAccess:
+    Type: String
+    Default: "false"
+    AllowedValues: [ "true", "false" ]
   RoleArn:
     Type: String
   NodeInstanceRoleArn:
@@ -43,6 +51,8 @@ Resources:
       ResourcesVpcConfig:
         SecurityGroupIds: !Ref SecurityGroupIds
         SubnetIds: !Ref SubnetIds
+        EndpointPublicAccess: !Ref EndpointPublicAccess
+        EndpointPrivateAccess: !Ref EndpointPrivateAccess
       RoleArn: !Ref RoleArn
       Version: !Ref KubernetesVersion
   EksNodeUser:
